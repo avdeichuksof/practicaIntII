@@ -1,4 +1,5 @@
 import User from '../models/userModel.js'
+import Cart from '../models/cartModel.js'
 
 class UserController {
     createUser = async (user) => {
@@ -19,22 +20,35 @@ class UserController {
         }
     }
 
-    getUserById(id) {
+    getUserById = async (id) => {
         try{
-            const userFound = User.findOne({_id: id})
+            const userFound = await User.findOne({_id: id})
             return userFound
         }catch(err){
             console.log(err, {message: 'User not found'})
         }
     }
-    getUserByEmail(email) {
+    getUserByEmail = async (email) => {
         try{
-            const userFound = User.findOne({email: email})
+            const userFound = await User.findOne({email: email})
             return userFound
         }catch(err){
             console.log(err, {message: 'User not found'})
         }
     }
+
+    createUserCart = async () => {
+        try{
+            const newCart = new Cart()
+            await newCart.save()
+
+            return newCart
+        }catch(err){
+            console.log(err, {message: 'Error creating cart'})
+            return null
+        }
+    }
+
 }
 
 export default UserController

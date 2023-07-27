@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-const URL = 'mongodb+srv://savdeichuk:KCQc4E3Hn13lmNdx@ecommerce.yjjbpjj.mongodb.net/ecommerce'
+const URL = 'mongodb+srv://savdeichuk:yXdqDcaeNhm7aDH8@ecommerce.dmrehes.mongodb.net/ecommerce'
 
 export default {
     URL,

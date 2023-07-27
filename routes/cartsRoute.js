@@ -20,7 +20,6 @@ router.get('/:cid', (req, res) => {
     if(cart) Cart.find().populate('products.product')
         .then(c => res.send({cart: JSON.stringify(c)}))
         .catch(err => console.log(err))
-
 })
 
 router.post('/', (req, res) => {
@@ -37,10 +36,6 @@ router.post('/:cid/product/:pid', async (req, res) => {
     const pid = req.params.pid
     const productAdd = await cartManager.addToCart(cid, pid)
     return res.status(200).send({message: 'Product added to cart', product: productAdd})
-})
-
-router.put('/:cid', (req, res) => {
-
 })
 
 router.put('/:cid/products/:pid', async (req, res) => {

@@ -1,6 +1,6 @@
-import mongoose from "mongoose"
+import { Schema, model } from "mongoose"
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new Schema({
     firstName:{
         type: String,
         required:true
@@ -23,18 +23,16 @@ const UserSchema = new mongoose.Schema({
         required: true
     },
     cart: {
-        // cuando se crea el user, crear un carrito vacío
-        // como el population con productos
-        type: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Cart'
-        }
+        type: Schema.Types.ObjectId,
+        ref: 'Cart'
     },
     role: {
         type: String,
-        required: true
+        required: true,
+        enum: ["user", "admin"]
     }
 })
 
-const User = mongoose.model('User', UserSchema)
+
+const User = model('User', UserSchema)
 export default User

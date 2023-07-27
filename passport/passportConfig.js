@@ -6,6 +6,7 @@ import { createHash, isValidPassword } from '../utils/bcrypt.js'
 import dotenv from 'dotenv'
 import fetch from 'node-fetch'
 import User from '../dao/models/userModel.js'
+import Cart from '../dao/models/cartModel.js'
 
 dotenv.config()
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID
@@ -14,9 +15,11 @@ const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET
 const LocalStrategy = local.Strategy
 const UserManager = new UserController()
 
-const initPassport = () => {
+const initPassport = async () => {
     passport.use('register',
-        new LocalStrategy({ passReqToCallback: true, usernameField: 'email' },
+        new LocalStrategy({ 
+            passReqToCallback: true, 
+            usernameField: 'email' },
             async (req, username, password, done) => {
                 try {
                     let userData = req.body
@@ -27,6 +30,15 @@ const initPassport = () => {
                         console.log('User already exists')
                         return done(null, false)
                     }
+                    
+                    /* const newCart = await UserManager.createUserCart()
+                    if (!newCart) return done('Error creating cart') */
+                    
+                    // seteamos el rol
+                    const role = (userData.email === 'adminCoder@coder.com' && userData.password === 'admin1234') ? 'admin' : 'user'
+                    
+                    // creamos carrito 
+                    const newCart = new Cart({products:[]})
 
                     // si no existe lo creamos
                     const newUser = {
@@ -34,15 +46,12 @@ const initPassport = () => {
                         firstName: userData.firstName,
                         lastName: userData.lastName,
                         password: createHash(userData.password),
-                        age: userData.age
+                        cart: await newCart.save(),
+                        age: userData.age,
+                        role: role
                     }
 
-                    // seteamos el rol
-                    if (newUser.email === 'adminCoder@coder.com' && newUser.password === 'admin1234') {
-                        newUser.role = 'admin'
-                    } else {
-                        newUser.role = 'user'
-                    }
+                    
 
                     // guardamos
                     let userCreated = await UserManager.createUser(newUser)
@@ -99,16 +108,10 @@ const initPassport = () => {
                             Authorization: 'Bearer ' + accessToken,
                             'X-Github-Api-Version': '2022-11-28',
                         },
-                    });
-                    
-                    /* if (!res.ok) {
-                        throw new Error('Error fetching email from GitHub API: ' + res.status);
-                    } */
+                    })
 
                     const emails = await res.json()
-                    /* if (!Array.isArray(emails)) {
-                        throw new Error('Unexpected response data format from GitHub API.');
-                    } */
+                    console.log('tu res es:' + emails)
                     
                     const emailDetail = emails.find((email) => email.verified == true)
                     

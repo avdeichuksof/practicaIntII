@@ -15,25 +15,24 @@
                     <em class="card-title"> {{this.description}} </em>
                     <p class="card-text text-center"> <b> ${{this.price}} </b>  </p>
                     <small class="d-block">id: {{this._id}} </small>
-                    <button class="btn btn-outline-success mt-2" type="submit" onclick='addToCart({{this._id}})'>Add to cart</button>
+                    {{!-- <button class="btn btn-outline-success mt-2" id="btnAdd{{this._id}}">Add to cart</button> --}}
                     </div>
                 </div>
             </div>
         {{/each}}    
 
         {{#if pagination.hasPrevPage}}
-            <a style='font-size: 20;' href='/index/?page={{pagination.prevPage}}'>⬅{{pagination.prevPage}}</a>
+            <a class="btn btn-outline-info m-2" style='font-size: 20;' href='/index/?page={{pagination.prevPage}}'>⬅{{pagination.prevPage}}</a>
         {{/if}}
-            <a style='font-size: 20;' href='#'>{{pagination.page}}</a>
+            <a class="btn btn-outline-info m-2" style='font-size: 20;' href='#'>{{pagination.page}}</a>
         {{#if pagination.hasNextPage}}
-            <a style='font-size: 20;' href='/index/?page={{pagination.nextPage}}'>{{pagination.nextPage}}➡</a>
+            <a class="btn btn-outline-info m-2"style='font-size: 20;' href='/index/?page={{pagination.nextPage}}'>{{pagination.nextPage}}➡</a>
         {{/if}}
             <br/>
             <br/>
-        {{#each links}}
+        {{!-- {{#each links}}
             <a href='{{this.href}}'>{{this.label}}</a>
-        {{/each}}
-
+        {{/each}} --}}
     </div>
 </div>
 

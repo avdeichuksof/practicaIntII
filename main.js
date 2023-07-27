@@ -41,9 +41,6 @@ import userSessionRoute from './routes/userSessionRoute.js'
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
-// passport
-initPassport()
-app.use(passport.initialize())
 
 // dirname
 import path from 'path';
@@ -66,6 +63,11 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }))
+
+// passport
+initPassport()
+app.use(passport.initialize())
+app.use(passport.session())
 
 // routes
 app.use('/auth', authRoute)

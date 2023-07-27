@@ -2,7 +2,7 @@ import { Router } from 'express'
 const router = new Router()
 import ProductController from '../dao/mongoManagers/productController.js'
 const productManager = new ProductController()
-import jwt from 'jsonwebtoken'
+
 
 router.get('/', async (req, res) => {
     const {query, limit, page} = req.query
@@ -28,7 +28,9 @@ router.get('/', async (req, res) => {
         links.push({label: i, href: 'http://localhost:8080/index/?page=' + i})
     }
 
-    return res.status(200).render('index', {products: products, pagination: rest, links, user: req.session})
+    req.user = req.session.user
+
+    return res.status(200).render('index', {products: products, pagination: rest, links, user: req.user})
     
 })
 
