@@ -38,7 +38,7 @@ const initPassport = async () => {
                     const role = (userData.email === 'adminCoder@coder.com' && userData.password === 'admin1234') ? 'admin' : 'user'
                     
                     // creamos carrito 
-                    const newCart = new Cart({products:[]})
+                    const newCart = new Cart()
 
                     // si no existe lo creamos
                     const newUser = {
